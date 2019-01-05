@@ -13,10 +13,20 @@ if &compatible || v:version < 700
 end
 
 " Guard against repeat sourcing of this script
-if exists('g:loaded_speedyPlugin')
+if exists('g:loaded_pickMeUpPlugin')
     finish
 end
-let g:loaded_speedyPlugin = 1
+let g:loaded_pickMeUpPlugin = 1
+
+function s:SetSlashes(path)
+    return substitute(a:path, '[^/\\]\@<=$\|\\', '/', 'g')
+endfunction
+
+if exists('g:pickMeUpSessionDir')
+    let s:TmpDir = s:SetSlashes(g:pickMeUpSessionDir)
+else
+    let s:TmpDir = s:SetSlashes(fnamemodify(tempname(), ':h:h'))
+end
 
 " Python is required if 'base64' command isn't available
 if exists('g:sessionEncodeCmd') && exists('g:sessionDecodeCmd')
@@ -40,7 +50,7 @@ function s:DefaultSessionFile()
     if exists('g:activeSessionFile')
         return g:activeSessionFile
     else
-        return g:TmpDir . s:DefaultSessionId() . '.vim'
+        return s:TmpDir . s:DefaultSessionId() . '.vim'
     endif
 endfunction
 
