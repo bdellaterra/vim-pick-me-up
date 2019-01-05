@@ -1,2 +1,2 @@
 # vim-pick-me-up
-Pick up where you left off
+A Restorative: Pick up where you left off
