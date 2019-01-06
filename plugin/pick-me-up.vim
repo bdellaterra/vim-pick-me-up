@@ -18,14 +18,15 @@ if exists('g:loaded_pickMeUpPlugin')
 end
 let g:loaded_pickMeUpPlugin = 1
 
-function s:SetSlashes(path)
+" convert path to forward slashes with a slash at the end
+function s:DirSlashes(path)
     return substitute(a:path, '[^/\\]\@<=$\|\\', '/', 'g')
 endfunction
 
 if exists('g:pickMeUpSessionDir')
-    let s:TmpDir = s:SetSlashes(g:pickMeUpSessionDir)
+    let s:TmpDir = s:DirSlashes(g:pickMeUpSessionDir)
 else
-    let s:TmpDir = s:SetSlashes(fnamemodify(tempname(), ':h:h'))
+    let s:TmpDir = s:DirSlashes(fnamemodify(tempname(), ':h:h'))
 end
 
 " Python is required if 'base64' command isn't available
