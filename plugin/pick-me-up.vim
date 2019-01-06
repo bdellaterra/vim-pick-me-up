@@ -45,12 +45,9 @@ endif
 
 function s:DefaultSessionId()
     " Create project-specific session if projectroot.vim is installed
-    if exists('*ProjectRootGuess')
-        let baseDir = s:DirSlashes(fnamemodify(ProjectRootGuess(), ':p'))
-    else
-        let baseDir = s:DirSlashes(fnamemodify($HOME, ':p'))
-    end
-    return substitute(system(s:encodeCmd, baseDir), '\_s*$', '', '')
+    let baseDir = exists('*ProjectRootGuess') ? ProjectRootGuess() : $HOME
+    let sessionId = fnameescape(substitute(system(s:encodeCmd, s:DirSlashes(fnamemodify(baseDir, ':p'))), '\_s*$', '', ''))
+    return sessionId
 endfunction
 
 function s:DefaultSessionFile()
@@ -62,22 +59,23 @@ function s:DefaultSessionFile()
 endfunction
 
 function SaveSession(...)
-    let sessionFile = get(a:000, 0, s:DefaultSessionFile())
+    let g:activeSessionFile = get(a:000, 0, s:DefaultSessionFile())
     let saveSessionOptions = &sessionoptions
     set sessionoptions=buffers,curdir,tabpages,winsize
-    exe 'mksession! ' . sessionFile
+    exe 'mksession! ' . g:activeSessionFile
     let &sessionoptions = saveSessionOptions
 endfunction
 
 function RestoreSession(...)
-    let sessionFile = get(a:000, 0, s:DefaultSessionFile())
-    execute 'source ' . sessionFile
+    let g:activeSessionFile = get(a:000, 0, s:DefaultSessionFile())
+    execute 'source ' . g:activeSessionFile
     windo filetype detect
 endfunction
 
 function DeleteSession(...)
     let sessionFile = get(a:000, 0, s:DefaultSessionFile())
     call delete(sessionFile)
+    unlet g:activeSessionFile
 endfunction
 
 " Create editor commands for the functions
@@ -85,7 +83,7 @@ command -nargs=? -complete=file SaveSession call SaveSession(<f-args>)
 command -nargs=? -complete=file RestoreSession call RestoreSession(<f-args>)
 command -nargs=? -complete=file DeleteSession call DeleteSession(<f-args>)
 
-autocmd BufAdd,BufHidden,BufLeave,FileType * SaveSession
+autocmd BufAdd,BufNew,BufHidden,BufLeave,FileType * SaveSession
 autocmd VimLeave * if exists(s:DefaultSessionFile()) | SaveSession | endif
 
 function InitSession()
