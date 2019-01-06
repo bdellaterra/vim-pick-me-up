@@ -44,7 +44,13 @@ else
 endif
 
 function s:DefaultSessionId()
-    return substitute(system(s:encodeCmd, getcwd()), '\_s*$', '', '')
+    " Create project-specific session if projectroot.vim is installed
+    if exists('*ProjectRootGuess')
+        let baseDir = ProjectRootGuess()
+    else
+        let baseDir = $HOME
+    end
+    return substitute(system(s:encodeCmd, baseDir), '\_s*$', '', '')
 endfunction
 
 function s:DefaultSessionFile()
