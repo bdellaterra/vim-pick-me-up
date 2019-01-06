@@ -46,9 +46,9 @@ endif
 function s:DefaultSessionId()
     " Create project-specific session if projectroot.vim is installed
     if exists('*ProjectRootGuess')
-        let baseDir = ProjectRootGuess()
+        let baseDir = s:DirSlashes(fnamemodify(ProjectRootGuess(), ':p'))
     else
-        let baseDir = $HOME
+        let baseDir = s:DirSlashes(fnamemodify($HOME, ':p'))
     end
     return substitute(system(s:encodeCmd, baseDir), '\_s*$', '', '')
 endfunction
