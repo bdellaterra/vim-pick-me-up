@@ -72,6 +72,7 @@ endfunction
 function RestoreSession(...)
     let sessionFile = get(a:000, 0, s:DefaultSessionFile())
     execute 'source ' . sessionFile
+    windo filetype detect
 endfunction
 
 function DeleteSession(...)
