@@ -63,9 +63,10 @@ function SaveSession(...)
     let saveSessionOptions = &sessionoptions
     set sessionoptions+=buffers
       \ sessionoptions+=curdir
-      \ sessionoptions+=tabpages
       \ sessionoptions+=winsize
+      \ sessionoptions+=tabpages
       \ sessionoptions-=blank
+      \ sessionoptions-=help
       \ sessionoptions-=options
     exe 'mksession! ' . g:activeSessionFile
     let &sessionoptions = saveSessionOptions
