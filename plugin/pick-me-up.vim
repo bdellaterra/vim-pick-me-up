@@ -89,7 +89,7 @@ command -nargs=? -complete=file SaveSession call SaveSession(<f-args>)
 command -nargs=? -complete=file RestoreSession call RestoreSession(<f-args>)
 command -nargs=? -complete=file DeleteSession call DeleteSession(<f-args>)
 
-autocmd BufAdd,BufNew,BufHidden,BufLeave,FileType * SaveSession
+autocmd BufAdd,BufDelete,BufNew,BufHidden,BufLeave,FileType * SaveSession
 autocmd VimLeave * if exists(s:DefaultSessionFile()) | SaveSession | endif
 
 function InitSession()
