@@ -1,5 +1,5 @@
 " File:         pick-me-up.vim
-" Description:  Fast characterwise, linewise, and blockwise mouse selections
+" Description:  A Restorative: Pick up where you left off
 " Author:       Brian Dellatera <github.com/bdellaterra>
 " Version:      0.1.1
 " License:      Copyright 2017-2019 Brian Dellaterra. This file is part of Pick-Me-Up.
