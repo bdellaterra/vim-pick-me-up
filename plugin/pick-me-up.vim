@@ -94,11 +94,7 @@ autocmd VimLeave * if exists(s:DefaultSessionFile()) | SaveSession | endif
 
 function InitSession()
     if !argc() && filereadable(s:DefaultSessionFile())
-        try
-            call RestoreSession()
-        " Catch all errors for silent start
-        catch
-        endtry
+        silent! call RestoreSession()
     endif
 endfunction
 
