@@ -46,7 +46,10 @@ endif
 function s:DefaultSessionId()
     " Create project-specific session if projectroot.vim is installed
     let baseDir = exists('*ProjectRootGuess') ? ProjectRootGuess() : $HOME
-    let sessionId = fnameescape(substitute(system(s:encodeCmd, s:DirSlashes(fnamemodify(baseDir, ':p'))), '\_s*$', '', ''))
+    let sessionId = fnameescape(substitute(
+       \ system(s:encodeCmd, s:DirSlashes(fnamemodify(baseDir, ':p'))),
+       \ '\_s*$', '', ''
+       \ ))
     return sessionId
 endfunction
 
@@ -54,7 +57,7 @@ function s:DefaultSessionFile()
     if exists('g:activeSessionFile')
         return g:activeSessionFile
     else
-        return s:TmpDir . s:DefaultSessionId() . '.vim'
+        return s:TmpDir . '.' . s:DefaultSessionId() . '.vim'
     endif
 endfunction
 
@@ -100,5 +103,4 @@ endfunction
 
 " Restore default session when vim is started with no file argument(s)
 autocmd VimEnter * call InitSession()
-
 
